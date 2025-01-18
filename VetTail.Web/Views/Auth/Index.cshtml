@@ -1,0 +1,82 @@
+﻿@using VetTail.Web.Models.Auth;
+@model LoginVM;
+@{
+    ViewData["Title"] = "Home";
+}
+
+<div class="relative h-full w-dvw overflow-hidden bg-gradient-to-b from-white to-background to-30% px-32 py-16">
+    <div class="-translate-x-1/4 -translate-y-1/2 z-0 absolute left-0 top-0">
+        <div class="animate-spin2 border-4 rounded-full border-dotted border-secondary p-32 md:p-32"></div>
+    </div>
+    <div class="z-0 absolute bottom-0 right-0 translate-x-1/2 translate-y-1/2">
+        <div class="animate-spin2 border-4 rounded-full border-dotted border-secondary p-32 md:p-32"></div>
+    </div>
+
+    <section class="mx-auto flex h-full w-full items-center justify-center gap-32">
+        <aside class="items-left flex-1 flex h-full max-w-lg flex-col justify-center gap-4 px-3 py-2 text-center">
+            <article class="flex flex-col gap-2 text-left">
+                <h1 class="font-black bg-gradient-to-r from-primary to-primary-light bg-clip-text text-6xl text-transparent">
+                    Simplify Your Veterinary Practice
+                </h1>
+                <p class="text-lg font-medium text-copy-light">
+                    Experience how VetTail revolutionizes clinic management, making patient care more efficient and organized.
+                </p>
+            </article>
+            <button data-modal-binding="login-modal" class="w-fit rounded-xl bg-primary-light px-5 py-3 font-semibold text-primary-content shadow-md">Get Started</button>
+
+        </aside>
+        <div class="flex-1 bg-[url('/dshbrd-vet.svg')] w-full h-full bg-contain bg-center bg-no-repeat grid place-items-center">
+       
+        </div>
+    </section>
+</div>
+
+
+<dialog data-modal="login-modal" class="-translate-y-1/2 bg-white/30 -translate-x-1/2 border-2 relative left-1/2 top-1/2 w-full max-w-md rounded-lg border-border px-8 py-12 shadow-md backdrop-blur-sm backdrop:backdrop-blur-[2px] backdrop:bg-black/30">
+    <button data-modal-close class="absolute right-0 top-0 rounded-bl-md bg-error text-error-content">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-x"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg>
+    </button>
+    <form asp-action="index" asp-controller="auth" method="post" class="flex w-full max-w-md flex-col items-center gap-6">
+        <header class="bg-gradient-to-r from-primary to-primary-light bg-clip-text text-3xl font-bold text-transparent">VetTail</header>
+
+        <section class="flex w-full flex-col gap-4">
+            <input type="hidden" name="ReturnUrl" value="@ViewBag.ReturnUrl" />
+
+            <label class="flex flex-col gap-2" asp-for=Username>
+                Username
+                <input asp-for=Username class="rounded-md bg-foreground px-3 py-2" placeholder="john.doe" />
+                <span asp-validation-for="Username" class="text-sm font-semibold text-error"></span>
+            </label>
+
+            <label class="flex flex-col gap-2" asp-for=Password>
+                Password
+                <input asp-for=Password class="rounded-md bg-foreground px-3 py-2" placeholder="••••••••" />
+                <span asp-validation-for="Password" class="text-sm font-semibold text-error"></span>
+            </label>
+
+            <div class="flex items-center justify-start gap-1.5">
+
+                <label asp-for=RememberMe  class="relative flex cursor-pointer items-center">
+                    <input asp-for=RememberMe
+                           checked
+                           class="peer h-5 w-5 cursor-pointer appearance-none rounded border border-slate-300 bg-foreground shadow transition-all checked:bg-primary-dark checked:border-slate-800 hover:shadow-md" />
+                    <span class="opacity-0 -translate-x-1/2 -translate-y-1/2 absolute left-1/2 top-1/2 transform text-white peer-checked:opacity-100">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor"
+                             stroke="currentColor" stroke-width="1">
+                            <path fill-rule="evenodd"
+                                  d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                  clip-rule="evenodd"></path>
+                        </svg>
+                    </span>
+                </label>
+                Remember Me
+            </div>
+        </section>
+
+        <div class="flex w-full flex-col items-center gap-2">
+            <button type="submit" class="w-full rounded-lg bg-secondary px-5 py-2 text-secondary-content"> Contiue </button>
+            <p class="text-xs text-copy">By clicking continue, you agree to our terms of service.</p>
+        </div>
+    </form>
+
+</dialog>

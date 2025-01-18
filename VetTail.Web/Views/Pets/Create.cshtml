@@ -1,0 +1,100 @@
+﻿@using VetTail.Domain.Enums
+@using VetTail.Web.Models.Pets;
+@model CreatePetVM;
+@{
+    this.ViewData["Title"] = "Create";
+    this.Layout = "_AppLayout";
+}
+
+<div class="flex items-start gap-4">
+    <form asp-action="create" asp-controller="clients" method="post" class="flex-1 flex flex-col items-center gap-6 rounded-md px-12 py-8">
+        <header class="bg-gradient-to-r from-primary to-primary-light bg-clip-text text-3xl font-bold text-transparent">Register Pet</header>
+        <div class="h-0.5 w-full bg-gradient-to-r from-border via-copy-lighter to-border"></div>
+        @if (ViewData.ModelState.ErrorCount > 0)
+        {
+            <div class="bg-error/80 w-full rounded-md p-2 text-error-content" asp-validation-summary="All"></div>
+        }
+
+        <section class="flex w-full flex-col gap-4">
+            <div class="flex w-full items-start justify-evenly gap-4">
+                <label class="flex-1 flex flex-col gap-2" asp-for="Name">
+                    <span>Name <span class="font-semibold text-red-500">*</span></span>
+                    <input asp-for=Name class="rounded-md bg-foreground px-3 py-2" placeholder="Max" />
+                </label>
+                <label class="flex-1 flex flex-col gap-2" asp-for="Color">
+                    <span>Color <span class="font-semibold text-red-500">*</span></span>
+                    <input asp-for=Color class="rounded-md bg-foreground px-3 py-2" placeholder="Max" />
+                </label>
+
+                <label class="flex-1 flex flex-col gap-2" asp-for="OwnerId">
+                    <span>Owner  <span class="font-semibold text-red-500">*</span></span>
+                    <select asp-for="OwnerId" asp-items="@(new SelectList(ViewBag.Clients, "Id", "Name"))" class="block w-full rounded-lg border border-border bg-foreground px-4 py-2.5 text-sm text-gray-900 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                        <option>---Select one---</option>
+                    </select>
+                </label>
+            </div>
+
+            <div class="flex w-full items-start justify-evenly gap-4">
+                <label class="flex-1 flex flex-col gap-2" asp-for="Specie">
+                    <span>Specie <span class="font-semibold text-red-500">*</span></span>
+                    <input asp-for=Specie class="w-full rounded-md bg-foreground px-3 py-2" placeholder="dog, cat" />
+                </label>
+
+                <label class="flex-1 flex flex-col gap-2" asp-for="Breed">
+                    <span>Breed</span>
+                    <input asp-for=Breed class="w-full rounded-md bg-foreground px-3 py-2" placeholder="godlen retreiver, german ..." />
+                </label>
+
+            </div>
+
+            <div class="flex w-full items-start justify-evenly gap-4">
+                <label class="flex-1 flex flex-col gap-2" asp-for="Weight">
+                    <span>Weight <span class="font-semibold text-red-500">*</span></span>
+                    <input asp-for=Weight class="w-full rounded-md bg-foreground px-3 py-2" placeholder="dog, cat" />
+                </label>
+
+                <label class="flex-1 flex flex-col gap-2" asp-for="WeightUnit">
+                    <span>Unit  <span class="font-semibold text-red-500">*</span></span>
+                    <select asp-for="WeightUnit" class="block w-full rounded-lg border border-border bg-foreground px-4 py-2.5 text-sm text-gray-900 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                        <option>---Select one---</option>
+                        <option value="Kg">kilogram</option>
+                        <option value="Gr">Gram</option>
+                        <option value="Lbs">Pound</option>
+                        <option value="Oz">Ounce</option>
+                    </select>
+                </label>
+            </div>
+
+
+
+            <div class="flex w-full items-center justify-evenly gap-4">
+                <label class="flex-1 flex flex-col gap-2" asp-for="BirthDate">
+                    <span>BirthDate</span>
+                    <input type="date" asp-for=BirthDate class="w-full rounded-md bg-foreground px-3 py-2" placeholder="BirthDate*" />
+                </label>
+
+                <label class="flex-1 flex flex-col gap-2" asp-for="Gender">
+                    <span>Gender  <span class="font-semibold text-red-500">*</span></span>
+                    <select asp-for="Gender" class="block w-full rounded-lg border border-border bg-foreground px-4 py-2.5 text-sm text-gray-900 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                        <option>---Select one---</option>
+                        <option value="@Gender.MALE">Male</option>
+                        <option value="@Gender.FEMALE">Female</option>
+                    </select>
+                </label>
+
+            </div>
+        </section>
+
+        <div class="flex w-full items-center gap-2">
+            <button type="submit" class="flex w-full items-center justify-center gap-1 rounded-lg bg-secondary px-5 py-2 text-secondary-content">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-send-2"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M4.698 4.034l16.302 7.966l-16.302 7.966a.503 .503 0 0 1 -.546 -.124a.555 .555 0 0 1 -.12 -.568l2.468 -7.274l-2.468 -7.274a.555 .555 0 0 1 .12 -.568a.503 .503 0 0 1 .546 -.124z" /><path d="M6.5 12h14.5" /></svg>
+                Contiue
+            </button>
+            <button type="reset" class="flex w-full items-center justify-center gap-1 rounded-lg bg-error px-5 py-2 text-error-content">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-clear-all"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M8 6h12" /><path d="M6 12h12" /><path d="M4 18h12" /></svg>
+                Clear
+            </button>
+        </div>
+
+    </form>
+</div>

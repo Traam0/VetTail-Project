@@ -1,0 +1,111 @@
+﻿@using VetTail.Web.Models.Clients;
+@model ClientVM
+@{
+    ViewData["Title"] = Model.Id;
+    this.Layout = "_AppLayout";
+}
+
+
+
+<div class="flex-1 flex flex-col items-center gap-6 rounded-md px-12 py-8">
+    <header class="w-full bg-gradient-to-r from-primary to-primary-light bg-clip-text text-left text-3xl font-bold text-transparent">Client Information</header>
+    <div class="h-0.5 w-full bg-gradient-to-r from-border via-copy-lighter to-border"></div>
+    <section class="flex w-full flex-col gap-4">
+        <div class="flex w-full items-start justify-evenly gap-4">
+            <label class="flex-1 flex flex-col gap-2" asp-for="Id">
+                <span>Id </span>
+                <input readonly disabled asp-for=Id class="rounded-md bg-foreground px-3 py-2" placeholder="John" />
+            </label>
+        </div>
+        <div class="flex w-full items-start justify-evenly gap-4">
+            <label class="flex-1 flex flex-col gap-2" asp-for="FirstName">
+                <span>First Name </span>
+                <input readonly disabled asp-for=FirstName class="rounded-md bg-foreground px-3 py-2" placeholder="John" />
+            </label>
+
+            <label class="flex-1 flex flex-col gap-2" asp-for="MiddleName">
+                <span>Middle Name</span>
+                <input readonly disabled asp-for=MiddleName class="rounded-md bg-foreground px-3 py-2" placeholder="Middle Name" />
+            </label>
+
+            <label class="flex-1 flex flex-col gap-2" asp-for="LastName">
+                <span>Last Name </span>
+                <input readonly disabled asp-for=LastName class="rounded-md bg-foreground px-3 py-2" placeholder="Last Name*" />
+            </label>
+
+        </div>
+
+        <div class="flex w-full items-start justify-evenly gap-4">
+            <label class="flex-1 flex flex-col gap-2" asp-for="PhoneNumber">
+                <span>Phone Number </span>
+                <input readonly disabled asp-for=PhoneNumber class="w-full rounded-md bg-foreground px-3 py-2" placeholder="+212700000000*" />
+            </label>
+
+            <label class="flex-1 flex flex-col gap-2" asp-for="Email">
+                <span>Email</span>
+                <input readonly disabled asp-for=Email class="w-full rounded-md bg-foreground px-3 py-2" placeholder="john.doe@gmail.com" />
+            </label>
+
+        </div>
+
+        <div class="flex w-full items-start justify-evenly gap-4">
+            <label class="flex-1 flex flex-col gap-2" asp-for="Street">
+                <span>Street  </span>
+                <input readonly disabled asp-for=Street class="rounded-md bg-foreground px-3 py-2" placeholder="Avenue Hassan II.*" />
+            </label>
+
+            <label class="flex-1 flex flex-col gap-2" asp-for="Street">
+                <span>City  </span>
+                <input readonly disabled asp-for=City class="rounded-md bg-foreground px-3 py-2" placeholder="Sale*" />
+            </label>
+
+            <label class="flex-1 flex flex-col gap-2" asp-for="Street">
+                <span>Zip Code</span>
+                <input readonly disabled asp-for=ZipCode class="rounded-md bg-foreground px-3 py-2" placeholder="11030" />
+            </label>
+        </div>
+
+
+
+        <div class="flex w-full items-center justify-evenly gap-4">
+            <label class="flex-1 flex flex-col gap-2" asp-for="BirthDate">
+                <span>BirthDate</span>
+                <input readonly disabled type="date" asp-for=BirthDate class="w-full rounded-md bg-foreground px-3 py-2" placeholder="BirthDate*" />
+            </label>
+
+            <label class="flex-1 flex flex-col gap-2" asp-for="Gender">
+                <span>Gender</span>
+                <input readonly disabled asp-for=Gender class="w-full rounded-md bg-foreground px-3 py-2" placeholder="BirthDate*" />
+            </label>
+             
+
+        </div>
+    </section>
+</div>
+
+@if(Model.Pets.Any()){
+    <div class="flex-1 flex flex-col items-center gap-6 rounded-md px-12 py-8">
+        <header class="w-full bg-gradient-to-r from-primary to-primary-light bg-clip-text text-right text-3xl font-bold text-transparent">Client Pets</header>
+        <div class="h-0.5 w-full bg-gradient-to-r from-border via-copy-lighter to-border"></div>
+
+        <section class="flex w-full flex-col flex-wrap gap-4">
+            @foreach (var pet in Model.Pets)
+            {
+                <div class="border-2 flex w-fit flex-col gap-1 rounded-md border-border bg-gradient-to-r from-white to-slate-200 px-5 py-3">
+                    <div class="flex items-center justify-between border-b py-2">
+                        <h2 class="font-medium">@pet.Name</h2>
+                        <a>
+                            <svg asp-controller="pets" asp-action="show" asp-route-id="@pet.Id" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-dots-vertical"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M12 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /><path d="M12 19m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /><path d="M12 5m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /></svg>
+                        </a>
+                    </div>
+                    <p><span class="font-semibold">Color : </span> @pet.Color</p>
+                    <p><span class="font-semibold">Birthdate: </span> @pet.BirthDate.ToString("MMMM dd, yyyy")</p>
+                    <p><span class="font-semibold">Speecie : </span> dog</p>
+                    <p><span class="font-semibold">Breed : </span> Golden Retreiver</p>
+                    <p><span class="font-semibold">Gender: </span> Male</p>
+                </div>
+            }
+        </section>
+
+    </div>
+}

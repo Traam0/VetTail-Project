@@ -1,0 +1,136 @@
+﻿@using VetTail.Web.Models.Clients;
+@model ClientsVM
+@{
+    this.ViewData["Title"] = "Clients";
+    this.Layout = "_AppLayout";
+}
+
+
+
+
+<div class="flex flex-col gap-2">
+    <div class="flex items-center justify-between text-sm font-semibold">
+        <a asp-controller="clients" asp-action="create" class="flex items-center justify-center gap-1.5 rounded-lg bg-primary-light px-3 py-2 text-primary-content">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-file-plus"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M14 3v4a1 1 0 0 0 1 1h4" /><path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z" /><path d="M12 11l0 6" /><path d="M9 14l6 0" /></svg>
+            create
+        </a>
+        <p>@Model.Clients</p>
+    </div>
+
+    <div class="relative h-full overflow-x-auto shadow-md sm:rounded-lg">
+        <table class="w-full">
+            <thead class="bg-gray-50 text-xs uppercase">
+                <tr>
+
+                    <th colspan="5" scope="colgroup" class="border-b px-6 py-3 text-center">
+                        General Information
+                    </th>
+                    <th colspan="2" scope="colgroup" class="border-b px-6 py-3 text-center">
+                        Contact Information
+                    </th>
+                    <th rowspan="2" scope="col" class="px-6 py-3 text-center">
+                        Action
+                    </th>
+                </tr>
+                <tr class="space-x-1">
+                    <th scope="col" class="px-6 py-3 text-center">
+                        First Name
+                    </th>
+                    <th scope="col" class="px-6 py-3 text-center">
+
+                        Middle Name
+                    </th>
+                    <th scope="col" class="px-6 py-3 text-center">
+                        Last Name
+                    </th>
+                    <th scope="col" class="px-6 py-3 text-center">
+                        Birth Date
+                    </th>
+                    <th scope="col" class="px-6 py-3 text-center">
+                        Gender
+                    </th>
+                    <th scope="col" class="px-6 py-3 text-center">
+                        Phone Number
+                    </th>
+                    <th scope="col" class="px-6 py-3 text-center">
+                        Email
+                    </th>
+                </tr>
+            </thead>
+            <tbody class="h-full">
+               @if(Model.Clients.Items.Count > 0){
+                    @foreach (var Client in Model.Clients.Items)
+                    {
+                        <tr class="border-b odd:bg-white even:bg-gray-50 dark:border-gray-700 odd:dark:bg-gray-900 even:dark:bg-gray-800">
+                            <th scope="row" class="whitespace-nowrap px-6 py-4 font-medium text-gray-900 dark:text-white">
+                               @Client.FirstName
+                            </th>
+                            <td class="px-6 py-4">
+                                @Client.MiddleName
+                            </td>
+                            <td class="px-6 py-4">
+                                @Client.LastName
+                            </td>
+                            <td class="px-6 py-4">
+                                @Client.BirthDate
+                            </td>
+                            <td class="px-6 py-4">
+                                @Client.Gender
+                            </td>
+                            <td class="px-6 py-4">
+                                @Client.PhoneNumber
+                            </td>
+                            <td class="px-6 py-4">
+                                @Client.Email
+                            </td>
+                            <td class="flex items-center gap-2 px-6 py-4 text-center">
+                                <a asp-controller="clients" asp-action="Show" asp-route-id="@Client.Id" class="font-medium text-blue-600 hover:underline dark:text-blue-500">show</a>
+                                <a asp-controller="clients" asp-action="Update" asp-route-id="@Client.Id" class="font-medium text-orange-500">Update</a>
+                                <form asp-controller="clients" asp-action="Delete" method="post">
+                                    <input type="hidden" name="id" value="@Client.Id"/>
+                                    <button class="font-medium text-error">delete</button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+               }else{
+                   <tr class="bg-white">
+                       <td colspan="8" class="h-96 text-center text-6xl font-semibold uppercase text-gray-400"> no clients  </td>
+                   </tr>
+               }
+            
+            </tbody>
+        </table>
+    </div>
+    <div>
+        <nav aria-label="Page navigation" class="flex items-center justify-end">
+            <ul class="inline-flex -space-x-px text-sm">
+                <li class="@(Model.Clients.HasPrevPage ? string.Empty : "cursor-not-allowed" )">
+                    <a asp-controller="clients" asp-action="index" asp-route-pageSize="@Model.Clients.Size" asp-route-pageNumber="@(Model.Clients.PageNumber - 1)" class="@(Model.Clients.HasPrevPage ? "cursor-pointer" : "cursor-not-allowed pointer-events-none") border-e-0 ms-0 flex h-8 items-center justify-center rounded-s-lg border border-border bg-white px-3 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700">Previous</a>
+                </li>
+                @if (Model.Clients.PageNumber > 5)
+                {
+                    for (int i = Model.Clients.PageNumber - 2; i <= Math.Min(Model.Clients.PageNumber + 2, Model.Clients.TotalPages); i++)
+                    {
+                        <li>
+                            <a asp-controller="clients" asp-action="index" asp-route-pageSize="@Model.Clients.Size" asp-route-pageNumber="@i" class="@(Model.Clients.PageNumber == i ? "bg-primary-light text-primary-content" : "bg-white text-gray-700") flex h-8 items-center justify-center border border-border px-3 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700">@i</a>
+                        </li>
+                    }
+                }
+                else
+                {
+
+                    for (int i = 1; i <= Math.Min(5, Model.Clients.TotalPages); i++)
+                    {
+                        <li class="cursor-not-allowed">
+                            <a asp-controller="clients" asp-action="index" asp-route-pageSize="@Model.Clients.Size" asp-route-pageNumber="@i" class="@(Model.Clients.PageNumber == i ? "bg-primary-light text-primary-content" : "bg-white text-gray-700") flex h-8 items-center justify-center border border-border px-3 leading-tight hover:bg-border hover:text-gray-700">@i</a>
+                        </li>
+                    }
+                }
+                <li class="@(Model.Clients.HasNextPage ? string.Empty : "cursor-not-allowed" )">
+                    <a asp-controller="clients" asp-action="index" asp-route-pageSize="@Model.Clients.Size" asp-route-pageNumber="@(Model.Clients.PageNumber + 1)" class="@(Model.Clients.HasNextPage ? "cursor-pointer" : "cursor-not-allowed pointer-events-none") flex h-8 items-center justify-center rounded-e-lg border border-border bg-white px-3 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700">Next</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>

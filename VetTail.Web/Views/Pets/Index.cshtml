@@ -1,0 +1,138 @@
+﻿@using VetTail.Web.Models.Pets;
+@model PetsVM;
+@{
+    this.ViewData["Title"] = "Pets";
+    this.Layout = "_AppLayout";
+}
+
+
+
+
+
+<div class="flex flex-col gap-2">
+    <div class="flex items-center justify-between text-sm font-semibold">
+        <a asp-controller="Pets" asp-action="create" class="flex items-center justify-center gap-1.5 rounded-lg bg-primary-light px-3 py-2 text-primary-content">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-file-plus"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M14 3v4a1 1 0 0 0 1 1h4" /><path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z" /><path d="M12 11l0 6" /><path d="M9 14l6 0" /></svg>
+            create
+        </a>
+        <p>@Model.Pets</p>
+    </div>
+
+    <div class="relative h-full overflow-x-auto shadow-md sm:rounded-lg">
+        <table class="w-full">
+            <thead class="bg-gray-50 text-xs uppercase">
+                <tr class="space-x-1">
+                    <th scope="col" class="px-6 py-3 text-center">
+                        Name
+                    </th>
+                    <th scope="col" class="px-6 py-3 text-center">
+
+                        Speecies
+                    </th>
+                    <th scope="col" class="px-6 py-3 text-center">
+                        Breed
+                    </th>
+                    <th scope="col" class="px-6 py-3 text-center">
+                        Color
+                    </th>
+                    <th scope="col" class="px-6 py-3 text-center">
+                        BirthDate
+                    </th>
+                    <th scope="col" class="px-6 py-3 text-center">
+                        Age
+                    </th>
+                    <th scope="col" class="px-6 py-3 text-center">
+                        Gender
+                    </th>
+                    <th scope="col" class="px-6 py-3 text-center">
+                        registeration date
+                    </th>
+                    <th scope="col" class="px-6 py-3 text-center">
+                        Action
+                    </th>
+                </tr>
+            </thead>
+            <tbody class="h-full">
+                @if (Model.Pets.Items.Count > 0)
+                {
+                    @foreach (var pet in Model.Pets.Items)
+                    {
+                        <tr class="border-b odd:bg-white even:bg-gray-50 dark:border-gray-700 odd:dark:bg-gray-900 even:dark:bg-gray-800">
+                            <th scope="row" class="whitespace-nowrap px-6 py-4 font-medium text-gray-900 dark:text-white">
+                                @pet.Name
+                            </th>
+                            <td class="px-6 py-4">
+                                @pet.Specie
+                            </td>
+                            <td class="px-6 py-4">
+                                @pet.Breed
+                            </td>
+                            <td class="px-6 py-4">
+                                @pet.Color
+                            </td>
+                            <td class="px-6 py-4">
+                                @pet.BirthDate.ToString("G");
+                            </td>
+                            <td class="px-6 py-4">
+                                @(DateTimeOffset.UtcNow.Year - @pet.BirthDate.Year - (DateTimeOffset.UtcNow < pet.BirthDate.AddYears(DateTimeOffset.UtcNow.Year - @pet.BirthDate.Year) ? 1 : 0))
+                            </td>
+                            <td class="px-6 py-4">
+                                @pet.Gender
+                            </td>
+                            <td class="px-6 py-4">
+                                @pet.RegisterationDate.ToString("D");
+                            </td>
+
+
+                            <td class="flex items-center gap-2 px-6 py-4 text-center">
+                                <a asp-controller="Pets" asp-action="show" asp-route-id="@pet.Id" class="font-medium text-blue-600 hover:underline dark:text-blue-500">show</a>
+                                <form asp-controller="pets" asp-action="delete" method="post">
+                                    <input type="hidden" name="id" value="@pet.Id" />
+                                    <button class="font-medium text-error">delete</button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr class="bg-white">
+                        <td colspan="9" class="h-96 text-center text-6xl font-semibold uppercase text-gray-400"> no Pets  </td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    </div>
+    <div>
+        <nav aria-label="Page navigation" class="flex items-center justify-end">
+            <ul class="inline-flex -space-x-px text-sm">
+                <li class="@(Model.Pets.HasPrevPage ? string.Empty : "cursor-not-allowed" )">
+                    <a asp-controller="Pets" asp-action="index" asp-route-pageSize="@Model.Pets.Size" asp-route-pageNumber="@(Model.Pets.PageNumber - 1)" class="@(Model.Pets.HasPrevPage ? "cursor-pointer" : "cursor-not-allowed pointer-events-none") border-e-0 ms-0 flex h-8 items-center justify-center rounded-s-lg border border-border bg-white px-3 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700">Previous</a>
+                </li>
+                @if (Model.Pets.PageNumber > 5)
+                {
+                    for (int i = Model.Pets.PageNumber - 2; i <= Math.Min(Model.Pets.PageNumber + 2, Model.Pets.TotalPages); i++)
+                    {
+                        <li>
+                            <a asp-controller="Pets" asp-action="index" asp-route-pageSize="@Model.Pets.Size" asp-route-pageNumber="@i" class="@(Model.Pets.PageNumber == i ? "bg-primary-light text-primary-content" : "bg-white text-gray-700") flex h-8 items-center justify-center border border-border px-3 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700">@i</a>
+                        </li>
+                    }
+                }
+                else
+                {
+
+                    for (int i = 1; i <= Math.Min(5, Model.Pets.TotalPages); i++)
+                    {
+                        <li class="cursor-not-allowed">
+                            <a asp-controller="Pets" asp-action="index" asp-route-pageSize="@Model.Pets.Size" asp-route-pageNumber="@i" class="@(Model.Pets.PageNumber == i ? "bg-primary-light text-primary-content" : "bg-white text-gray-700") flex h-8 items-center justify-center border border-border px-3 leading-tight hover:bg-border hover:text-gray-700">@i</a>
+                        </li>
+                    }
+                }
+                <li class="@(Model.Pets.HasNextPage ? string.Empty : "cursor-not-allowed" )">
+                    <a asp-controller="Pets" asp-action="index" asp-route-pageSize="@Model.Pets.Size" asp-route-pageNumber="@(Model.Pets.PageNumber + 1)" class="@(Model.Pets.HasNextPage ? "cursor-pointer" : "cursor-not-allowed pointer-events-none") flex h-8 items-center justify-center rounded-e-lg border border-border bg-white px-3 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700">Next</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>

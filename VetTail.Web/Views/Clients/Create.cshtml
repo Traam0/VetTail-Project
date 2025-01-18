@@ -1,0 +1,99 @@
+﻿@using VetTail.Domain.Enums
+@using VetTail.Web.Models.Clients;
+@model CreateClientVM;
+@{
+    this.Layout = "_AppLayout";
+}
+
+
+
+<div class="flex items-start gap-4">
+    <form asp-action="create" asp-controller="clients" method="post" class="flex-1 flex flex-col items-center gap-6 rounded-md px-12 py-8">
+        <header class="bg-gradient-to-r from-primary to-primary-light bg-clip-text text-3xl font-bold text-transparent">Register Client</header>
+        <div class="h-0.5 w-full bg-gradient-to-r from-border via-copy-lighter to-border"></div>
+        @if(ViewData.ModelState.ErrorCount > 0){
+            <div class="bg-error/80 w-full rounded-md p-2 text-error-content" asp-validation-summary="All"></div>
+        }
+        <section class="flex w-full flex-col gap-4">
+            <div class="flex w-full items-start justify-evenly gap-4">
+                <label class="flex-1 flex flex-col gap-2" asp-for="FirstName">
+                    <span>First Name <span class="font-semibold text-red-500">*</span></span>
+                    <input asp-for=FirstName class="rounded-md bg-foreground px-3 py-2" placeholder="John" />
+                </label>
+
+                <label class="flex-1 flex flex-col gap-2" asp-for="MiddleName">
+                    <span>Middle Name</span>
+                    <input asp-for=MiddleName class="rounded-md bg-foreground px-3 py-2" placeholder="Middle Name" />
+                </label>
+
+                <label class="flex-1 flex flex-col gap-2" asp-for="LastName">
+                    <span>Last Name <span class="font-semibold text-red-500">*</span></span>
+                    <input asp-for=LastName class="rounded-md bg-foreground px-3 py-2" placeholder="Last Name*" />
+                </label>
+
+            </div>
+
+            <div class="flex w-full items-start justify-evenly gap-4">
+                <label class="flex-1 flex flex-col gap-2" asp-for="PhoneNumber">
+                    <span>Phone Number <span class="font-semibold text-red-500">*</span></span>
+                    <input asp-for=PhoneNumber class="w-full rounded-md bg-foreground px-3 py-2" placeholder="+212700000000*" />
+                </label>
+
+                <label class="flex-1 flex flex-col gap-2" asp-for="Email">
+                    <span>Email</span>
+                    <input asp-for=Email class="w-full rounded-md bg-foreground px-3 py-2" placeholder="john.doe@gmail.com" />
+                </label>
+
+            </div>
+
+            <div class="flex w-full items-start justify-evenly gap-4">
+                <label class="flex-1 flex flex-col gap-2" asp-for="Street">
+                    <span>Street  <span class="font-semibold text-red-500">*</span></span>
+                    <input asp-for=Street class="rounded-md bg-foreground px-3 py-2" placeholder="Avenue Hassan II.*" />
+                </label>
+
+                <label class="flex-1 flex flex-col gap-2" asp-for="Street">
+                    <span>City  <span class="font-semibold text-red-500">*</span></span>
+                    <input asp-for=City class="rounded-md bg-foreground px-3 py-2" placeholder="Sale*" />
+                </label>
+
+                <label class="flex-1 flex flex-col gap-2" asp-for="Street">
+                    <span>Zip Code</span>
+                    <input asp-for=ZipCode class="rounded-md bg-foreground px-3 py-2" placeholder="11030" />
+                </label>
+            </div>
+
+
+
+            <div class="flex w-full items-center justify-evenly gap-4">
+                <label class="flex-1 flex flex-col gap-2" asp-for="BirthDate">
+                    <span>BirthDate</span>
+                    <input type="date" asp-for=BirthDate class="w-full rounded-md bg-foreground px-3 py-2" placeholder="BirthDate*" />
+                </label>
+
+                <label class="flex-1 flex flex-col gap-2" asp-for="Gender">
+                    <span>Gender  <span class="font-semibold text-red-500">*</span></span>
+                    <select asp-for="Gender">
+                        <option>---Select one---</option>
+                        <option value="@Gender.MALE">Male</option>
+                        <option value="@Gender.FEMALE">Female</option>
+                    </select>
+                </label>
+
+            </div>
+        </section>
+
+        <div class="flex w-full items-center gap-2">
+            <button type="submit" class="flex w-full items-center justify-center gap-1 rounded-lg bg-secondary px-5 py-2 text-secondary-content">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-send-2"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M4.698 4.034l16.302 7.966l-16.302 7.966a.503 .503 0 0 1 -.546 -.124a.555 .555 0 0 1 -.12 -.568l2.468 -7.274l-2.468 -7.274a.555 .555 0 0 1 .12 -.568a.503 .503 0 0 1 .546 -.124z" /><path d="M6.5 12h14.5" /></svg>
+                Contiue
+            </button>
+            <button type="reset" class="flex w-full items-center justify-center gap-1 rounded-lg bg-error px-5 py-2 text-error-content">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-clear-all"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M8 6h12" /><path d="M6 12h12" /><path d="M4 18h12" /></svg>
+                Clear
+            </button>
+        </div>
+    
+    </form>
+</div>
+
